@@ -6,15 +6,31 @@ require 'byebug'
 
 class Display
 
-  attr_reader :cursor
+  MODELS = {
+    Q: '♛',
+    K: '♚',
+    B: '♝',
+    R: '♜',
+    H: '♞',
+  	P: '♟',
+    N: " "
+  }
 
-  def initialize(board, cursor)
+  attr_reader :cursor, :errors
+
+  def initialize(board, cursor, game)
     @board = board
     @cursor = cursor
+    @errors = nil
+    @game = game
   end
+
+  def receive_errors(errors)
+    @errors = errors
+  end
+
   def render_board
     display = " 0 1 2 3 4 5 6 7\n\r"
-    row_num = -1
 
     (0..7).each do |r|
       display << r.to_s
@@ -23,19 +39,22 @@ class Display
       end
       display << "\r\n"
     end
+    display << "#{@game.current_player}\r\n"
+    display << "#{@errors}\r\n"
     return display
   end
 
   private
 
   def colorize_tile(row, col)
-    sym = @board[[row,col]].symbol.to_s
+    sym = MODELS[@board[[row,col]].symbol]
+    color = @board[[row,col]].color
     if [row,col] == @cursor.cursor_pos
-      return (sym + " ").colorize(background: @cursor.background, color: :black)
+      return (sym + " ").colorize(background: @cursor.background, color: color)
     elsif (row + col).even?
-      return (sym + " ").colorize(background: :red, color: :light_blue)
+      return (sym + " ").colorize(background: :light_black, color: color)
     end
-    return (sym + " ").colorize(background: :blue, color: :light_red)
+    return (sym + " ").colorize(background: :light_white, color: color)
   end
 
 end

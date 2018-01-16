@@ -37,7 +37,7 @@ class Cursor
   def initialize(cursor_pos, board)
     @cursor_pos = cursor_pos
     @board = board
-    @background = :light_black
+    @background = :light_red
   end
 
   def get_input
@@ -91,22 +91,25 @@ class Cursor
 
   end
 
-   def toggle_background
-     if @background == :light_black
-       @background = :light_yellow
-     else
-       @background = :light_black
-     end
-   end
 
    def update_pos(diff)
-     # debugger
+
      a,b = @cursor_pos
      c,d = diff
-     new_pos = [a + c , b + d]
+     new_pos = [a + c, b + d]
 
      if @board.in_bounds?(new_pos)
        @cursor_pos = new_pos
      end
    end
+
+  private
+
+  def toggle_background
+    if @background == :light_green
+      @background = :light_red
+    else
+      @background = :light_green
+    end
+  end
 end
