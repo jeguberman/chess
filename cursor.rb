@@ -32,11 +32,12 @@ MOVES = {
 
 class Cursor
 
-  attr_reader :cursor_pos, :board
+  attr_reader :cursor_pos, :background
 
   def initialize(cursor_pos, board)
     @cursor_pos = cursor_pos
     @board = board
+    @background = :light_black
   end
 
   def get_input
@@ -76,6 +77,7 @@ class Cursor
   end
 
   def handle_key(key)
+
      case key
      when :return, :space
        toggle_background
@@ -85,6 +87,15 @@ class Cursor
        return nil
      when :ctrl_c
        Process.exit(0)
+     end
+
+  end
+
+   def toggle_background
+     if @background == :light_black
+       @background = :light_yellow
+     else
+       @background = :light_black
      end
    end
 

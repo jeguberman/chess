@@ -10,7 +10,7 @@ class Display
 
   def initialize(board, cursor)
     @board = board
-    @cursor = cursor 
+    @cursor = cursor
   end
   def render_board
     display = " 0 1 2 3 4 5 6 7\n\r"
@@ -31,7 +31,7 @@ class Display
   def colorize_tile(row, col)
     sym = @board[[row,col]].symbol.to_s
     if [row,col] == @cursor.cursor_pos
-      return (sym + " ").colorize(background: :light_yellow, color: :black)
+      return (sym + " ").colorize(background: @cursor.background, color: :black)
     elsif (row + col).even?
       return (sym + " ").colorize(background: :red, color: :light_blue)
     end

@@ -31,8 +31,6 @@ class Game
     print @display.render_board
   end
 
-
-
 end
 
 Game.new.play
