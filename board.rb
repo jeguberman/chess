@@ -4,7 +4,7 @@ class Board
 
 
   def initialize
-    @grid = Array.new(12){Array.new(12){"n"}}
+    @grid = Array.new(12){Array.new(12){NullPiece.new}}
   end
 
   def [](pos)
@@ -17,6 +17,20 @@ class Board
     @grid[x][y]=arg
   end
 
+  def each_row
+    @grid.each do |row|
+      yield row
+    end
+  end
+
+  def each_tile_address
+    @grid.each.with_index do |row, idx|
+      @row.each.with_index do |tile, idx|
+        yield tile
+      end
+    end
+  end
+
   def move_piece(start_pos, end_pos)
     self[start_pos], self[end_pos] = self[end_pos], self[start_pos]
   end
@@ -27,8 +41,10 @@ class Board
     return true
   end
 
-  def populate
-
+  def in_bounds?(pos)
+    x, y = pos
+    return true if ((0..7).include? x) && ((0..7).include? y)
+    return false
   end
 
 end

@@ -1,7 +1,14 @@
 class Piece
+  attr_reader :symbol
+  def initialize
+    @symbol = :X
+  end
 end
 
 class NullPiece < Piece
+  def initialize
+    @symbol = :N
+  end
 end
 
 class Queen < Piece
