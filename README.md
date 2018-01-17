@@ -21,11 +21,11 @@ OSX- Make sure you have ruby 2.4 installed. Simply clone Chess into it's own rep
 
   Once you have selected your piece, the cursor turns green, and you can select the square you want to move your piece to.
 
-  ![](assets/Screen Shot 2018-01-17 at 10.43.56 AM.png)
+  ![](/assets/Screen Shot 2018-01-17 at 10.43.56 AM.png)
 
   If you make an illegal selection, you should receive an error message
 
-  ![](assets/Screen Shot 2018-01-17 at 10.43.56 AM.png)
+  ![](/assets/Screen Shot 2018-01-17 at 10.43.56 AM.png)
 
   You can quit at any time with ctrl+c
 
@@ -37,10 +37,6 @@ OSX- Make sure you have ruby 2.4 installed. Simply clone Chess into it's own rep
   * When you select your piece, the board should highlight available squares.
     * The cursor should move between those squares
   * Add a simple Chess AI that optimizes for the CURRENT move. (Easy mode)
-
-
-
-
 
 
 ## Technologies
