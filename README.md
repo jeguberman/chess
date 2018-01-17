@@ -14,7 +14,7 @@ OSX- Make sure you have ruby 2.4 installed. Simply clone Chess into it's own rep
   When the cursor is red, you can select one of your own pieces.
 
 
-  ![](/assets/Screen Shot 2018-01-17 at 10.42.12 AM.png)
+  ![](https://raw.githubusercontent.com/jeguberman/chess/master/assets/Screen%20Shot%202018-01-17%20at%2010.42.12%20AM.png)
 
 
 
@@ -24,11 +24,11 @@ OSX- Make sure you have ruby 2.4 installed. Simply clone Chess into it's own rep
   Once you have selected your piece, the cursor turns green, and you can select the square you want to move your piece to.
 
 
-  ![](/assets/Screen Shot 2018-01-17 at 10.43.56 AM.png)
+  ![](https://raw.githubusercontent.com/jeguberman/chess/master/assets/Screen%20Shot%202018-01-17%20at%2010.44.21%20AM.png)
 
   If you make an illegal selection, you should receive an error message
 
-  ![](/assets/Screen Shot 2018-01-17 at 10.43.56 AM.png)
+  ![](https://raw.githubusercontent.com/jeguberman/chess/master/assets/Screen%20Shot%202018-01-17%20at%2010.43.56%20AM.png)
 
 
   You can quit at any time with ctrl+c
