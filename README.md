@@ -42,13 +42,7 @@ OSX- Make sure you have ruby 2.4 installed. Simply clone Chess into it's own rep
     * The cursor should move between those squares
   * Add a simple Chess AI that optimizes for the CURRENT move. (Easy mode)
 
-<<<<<<< HEAD
-=======
 
-
-
-
->>>>>>> 32f4f057f6da5d7f0e630a3155f42127362c98ad
 
 ## Technologies
 Chess was written in Ruby and uses the Colorize gem.
