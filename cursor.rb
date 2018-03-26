@@ -40,7 +40,7 @@ class Cursor
     @background = :light_red
   end
 
-  def get_input
+  def get_cursor_pos
     key = KEYMAP[read_char]
     handle_key(key)
   end

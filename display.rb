@@ -40,7 +40,9 @@ class Display
       display << "\r\n"
     end
     display << "#{@game.current_player}\r\n"
+    display << render_debug_board
     display << "#{@errors}\r\n"
+
     return display
   end
 
@@ -55,6 +57,30 @@ class Display
       return (sym + " ").colorize(background: :light_black, color: color)
     end
     return (sym + " ").colorize(background: :light_white, color: color)
+  end
+
+  def render_debug_board
+    display = " 0 1 2 3 4 5 6 7\n\r"
+
+    (0..7).each do |r|
+      display << r.to_s
+      (0..7).each do |c|
+        display << specify_debug_info([r,c])
+      end
+      display << "\r\n"
+    end
+    display << "#{@game.current_player}\r\n"
+    display << "#{@errors}\r\n"
+    return display
+  end
+
+  def specify_debug_info(position)
+    begin
+    data = @board[position].pos ? @board[position].pos.to_s : "{ ,  }"
+  rescue
+    debugger
+  end
+    return data
   end
 
 end

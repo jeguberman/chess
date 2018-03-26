@@ -52,9 +52,10 @@ class Game
 
   def turn_phase
     pos = nil
+
     until pos
       display_board
-      pos = @cursor.get_input
+      pos = @cursor.get_cursor_pos
     end
     pos
   end

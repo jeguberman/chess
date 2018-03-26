@@ -8,6 +8,15 @@ class Piece
     @symbol = :X
     @color = params[:color]
     @pos = params[:pos]
+    @board = params[:board]
+  end
+
+  def moves#returns an array of available moves for the selected piece
+    raise "move method must be defined per individual piece type"
+  end
+
+  def set_pos(new_pos)
+    @pos = new_pos
   end
 end
 
@@ -16,6 +25,10 @@ class NullPiece < Piece
   def initialize
     @color = :blue
     @symbol = :N
+  end
+
+  def set_pos(new_pos)
+    #NullPieces don't have position, they are singletons, so we had to override the parent
   end
 
 end

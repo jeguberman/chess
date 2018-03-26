@@ -14,12 +14,14 @@ class Board
   end
 
   def []=(pos,arg)
-    x,y=pos
+    x,y = pos
     @grid[x][y]=arg
   end
 
   def move_piece(start_pos, end_pos)
     self[start_pos], self[end_pos] = self[end_pos], self[start_pos]
+    self[start_pos].set_pos(start_pos)
+    self[end_pos].set_pos(end_pos)
   end
 
   def valid_move?(current_player, start_pos, end_pos)
@@ -39,19 +41,19 @@ class Board
     col = 0
     STRONG_PIECE_NAMES.each do |piece_class|
       spawn_pos = [0, col]
-      self[spawn_pos] = piece_class.new({color: :black, pos: spawn_pos})
+      self[spawn_pos] = piece_class.new({color: :black, pos: spawn_pos, board: self})
 
       spawn_pos = [7, col]
-      self[spawn_pos] = piece_class.new({color: :white, pos: spawn_pos})
+      self[spawn_pos] = piece_class.new({color: :white, pos: spawn_pos, board: self})
 
       col += 1
     end
 
     (0..7).each do |col|
       spawn_pos = [1,col]
-      self[spawn_pos] = Pawn.new({color: :black, pos: spawn_pos})
+      self[spawn_pos] = Pawn.new({color: :black, pos: spawn_pos, board: self})
       spawn_pos = [6,col]
-      self[spawn_pos] = Pawn.new({color: :white, pos: spawn_pos})
+      self[spawn_pos] = Pawn.new({color: :white, pos: spawn_pos, board: self})
     end
 
   end
