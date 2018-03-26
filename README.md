@@ -33,14 +33,7 @@ OSX- Make sure you have ruby 2.4 installed. Simply clone Chess into it's own rep
 
   You can quit at any time with ctrl+c
 
-## TODO
 
-  * Pieces should only be able to move in accordance to their definitions
-  * Error messages should be more specific
-  * You should not be able to select a "destination square" if you haven't selected one of your own pieces
-  * When you select your piece, the board should highlight available squares.
-    * The cursor should move between those squares
-  * Add a simple Chess AI that optimizes for the CURRENT move. (Easy mode)
 
 
 
@@ -48,5 +41,3 @@ OSX- Make sure you have ruby 2.4 installed. Simply clone Chess into it's own rep
 Chess was written in Ruby and uses the Colorize gem.
 
 [colorize](https://github.com/fazibear/colorize)
-
-cursor.rb was provided by App Academy with the exception of the handle_key, toggle_background, and update_pos methods, as well as the instance variables in initialize.
