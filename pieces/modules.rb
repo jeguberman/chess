@@ -2,7 +2,7 @@ module SlidingPiece
 
 
   def moves
-    _moves = [:thing]
+    _moves = []
     directions.each do |delta_direction|
       coord = [pos[0]+delta_direction[0], pos[1]+delta_direction[1]]
       while confirm_in_bounds(coord)

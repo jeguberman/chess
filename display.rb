@@ -49,17 +49,38 @@ class Display
   private
 
   def colorize_tile(row, col)
+
     sym = MODELS[@board[[row,col]].symbol]
     color = @board[[row,col]].color
     if [row,col] == @cursor.cursor_pos
       return (sym + " ").colorize(background: @cursor.background, color: color)
-    elsif @cursor.selection && @board[@cursor.selection].moves.include?([row,col])
-      return (sym + " ").colorize(background: :blue, color: color)
-    elsif (row + col).even?
-      return (sym + " ").colorize(background: :light_black, color: color)
     end
-    return (sym + " ").colorize(background: :light_white, color: color)
+
+    even = (row + col).even?
+    move = false
+    bgc = ""
+
+    if @cursor.selection && @board[@cursor.selection].moves.include?([row,col])
+      move = true
+    end
+
+    bgc = {
+      [false,false] => :light_white,
+      [true,false] => :light_black,
+      [false,true] => :light_blue,
+      [true,true] => :blue
+    }[[even,move]]
+
+    return (sym + " ").colorize(background: bgc, color: color)
+
+
+
   end
+
+
+
+
+  #debugger information
 
   def selection_info
     if @cursor.selection
