@@ -60,27 +60,48 @@ class Display
   end
 
   def render_debug_board
-    display = " 0 1 2 3 4 5 6 7\n\r"
+    debug_display = "  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  |\n\r"
 
     (0..7).each do |r|
-      display << r.to_s
+      debug_display_top = ""
+      debug_display_bottom = " "
+      debug_display << "  " + " " * 5 * 8 + "\r\n"
+      debug_display_top << r.to_s +  " "
+      debug_display_bottom << " "
       (0..7).each do |c|
-        display << specify_debug_info([r,c])
+        ddt, ddb = specify_debug_info_for_cell([r,c])
+        debug_display_top << ddt
+        debug_display_bottom << ddb
       end
-      display << "\r\n"
+      debug_display << debug_display_top + "\r\n" + debug_display_bottom  + "\r\n"
+
     end
-    display << "#{@game.current_player}\r\n"
-    display << "#{@errors}\r\n"
-    return display
+
+    return debug_display
   end
 
-  def specify_debug_info(position)
+  def specify_debug_info_for_cell(position)
     begin
-    data = @board[position].pos ? @board[position].pos.to_s : "{ ,  }"
-  rescue
-    debugger
-  end
-    return data
+      top_data = " "
+      bottom_data = " "
+      if @board[position].pos
+        @board[position].pos.each do |coord|
+          top_data << coord.to_s
+        end
+        top_data << " "
+        bottom_data << MODELS[@board[position].symbol]#.to_s
+        bottom_data << "   "
+      else
+        top_data << "   "
+        bottom_data << "    "
+      end
+    rescue Exception => e
+      # debugger
+      puts e.message
+      puts "error"
+    end
+    top_data << " "
+    return [top_data, bottom_data]
   end
 
 end
