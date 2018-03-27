@@ -56,18 +56,18 @@ class Board
       col += 1
     end
 
-    # (0..7).each do |col|
-    #   spawn_pos = [1,col]
-    #   self[spawn_pos] = Pawn.new({color: :black, pos: spawn_pos, board: self})
-    #   spawn_pos = [6,col]
-    #   self[spawn_pos] = Pawn.new({color: :white, pos: spawn_pos, board: self})
-    # end
+    (0..7).each do |col|
+      spawn_pos = [1,col]
+      self[spawn_pos] = Pawn.new({color: :black, pos: spawn_pos, board: self})
+      spawn_pos = [6,col]
+      self[spawn_pos] = Pawn.new({color: :white, pos: spawn_pos, board: self})
+    end
 
 
 
     # fake_pos = [1,1]
-    fake_pos = [3,3]
-    self[fake_pos] = Queen.new(color: :white, pos: fake_pos, board: self)
+    # fake_pos = [3,3]
+    # self[fake_pos] = Knight.new(color: :white, pos: fake_pos, board: self)
   end
 
 end

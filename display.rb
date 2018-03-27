@@ -73,8 +73,6 @@ class Display
 
     return (sym + " ").colorize(background: bgc, color: color)
 
-
-
   end
 
 

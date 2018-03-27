@@ -1,6 +1,4 @@
 module SlidingPiece
-
-
   def moves
     _moves = []
     directions.each do |delta_direction|
@@ -14,25 +12,18 @@ module SlidingPiece
 
     return _moves
   end
-
-  private
-
-  def confirm_in_bounds(coord)
-    # debugger
-    return false  unless @board[coord].color != @color
-    return false unless @board.in_bounds? coord
-    return true
-  end
-
 end
 
-class SteppingPiece
-  def moves
-    _moves = []
-    directions.map do |delta|
-      coord = [pos[0]+delta[0], pos[1]+delta[1]]
-      _moves.push coord if @board.in_bounds? coord
-    end
 
+module SteppingPiece
+  def moves
+    # puts "spm"
+    # debugger
+    _moves = []
+    directions.each do |delta_direction|
+      coord = [pos[0]+delta_direction[0], pos[1]+delta_direction[1]]
+      _moves.push coord if confirm_in_bounds coord
+    end
+    return _moves
   end
 end
