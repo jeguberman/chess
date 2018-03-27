@@ -40,8 +40,8 @@ class Display
       display << "\r\n"
     end
     display << "#{@game.current_player}\r\n"
-    display << render_debug_board
     display << "#{@errors}\r\n"
+    display << render_debug_board
 
     return display
   end
@@ -59,15 +59,27 @@ class Display
     return (sym + " ").colorize(background: :light_white, color: color)
   end
 
+  def selection_info
+
+    if @cursor.background == :light_green
+      # debugger
+      piece = @board[@cursor.cursor_pos]
+      return "selection_info: Piece: #{MODELS[piece.symbol]} , Color: #{piece.color.to_s}, pos: #{piece.pos.to_s}\r\nMoves:#{piece.moves}"
+    else
+      return "\r\n"
+    end
+  end
+
   def render_debug_board
-    debug_display = "  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  |\n\r"
+    debug_display = selection_info
+    debug_display << "\r\n  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  |\n\r___________________________________________"
 
     (0..7).each do |r|
       debug_display_top = ""
       debug_display_bottom = " "
-      debug_display << "  " + " " * 5 * 8 + "\r\n"
-      debug_display_top << r.to_s +  " "
-      debug_display_bottom << " "
+      debug_display << " |" + " " * 5 * 8 + "\r\n"
+      debug_display_top << r.to_s +  "|"
+      debug_display_bottom << "|"
       (0..7).each do |c|
         ddt, ddb = specify_debug_info_for_cell([r,c])
         debug_display_top << ddt

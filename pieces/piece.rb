@@ -12,7 +12,8 @@ class Piece
   end
 
   def moves#returns an array of available moves for the selected piece
-    raise "move method must be defined per individual piece type"
+    # raise "move method must be defined per individual piece type"
+    []
   end
 
   def set_pos(new_pos)
