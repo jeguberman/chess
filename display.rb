@@ -53,6 +53,8 @@ class Display
     color = @board[[row,col]].color
     if [row,col] == @cursor.cursor_pos
       return (sym + " ").colorize(background: @cursor.background, color: color)
+    elsif @cursor.selection && @board[@cursor.selection].moves.include?([row,col])
+      return (sym + " ").colorize(background: :blue, color: color)
     elsif (row + col).even?
       return (sym + " ").colorize(background: :light_black, color: color)
     end
@@ -60,18 +62,21 @@ class Display
   end
 
   def selection_info
-
-    if @cursor.background == :light_green
-      # debugger
-      piece = @board[@cursor.cursor_pos]
+    if @cursor.selection
+      piece = @board[@cursor.selection]
       return "selection_info: Piece: #{MODELS[piece.symbol]} , Color: #{piece.color.to_s}, pos: #{piece.pos.to_s}\r\nMoves:#{piece.moves}"
-    else
-      return "\r\n"
     end
+    return @cursor.selection.to_s + "?!\r\n"
   end
 
   def render_debug_board
-    debug_display = selection_info
+    debug_display = ""
+
+
+      debug_display << selection_info
+
+
+
     debug_display << "\r\n  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  |\n\r___________________________________________"
 
     (0..7).each do |r|

@@ -14,7 +14,7 @@ class Game
   def play
     until game_over?
       turn
-      swap_player
+      # swap_player
     end
   end
 

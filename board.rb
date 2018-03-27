@@ -25,8 +25,15 @@ class Board
   end
 
   def valid_move?(current_player, start_pos, end_pos)
-    raise StandardError.new("No piece at start position") if self[start_pos].color != current_player
-    raise StandardError.new("Can't move to space occupied by own piece") if self[end_pos].color == current_player
+    if self[start_pos].color != current_player
+      raise StandardError.new("No piece at start position")
+    end
+    if self[end_pos].color == current_player
+      raise StandardError.new("Can't move to space occupied by own piece")
+    end
+    if !self[start_pos].moves.include?(end_pos)
+      raise StandardError.new("Not valid move for piece")
+    end
     return true
   end
 
@@ -49,13 +56,18 @@ class Board
       col += 1
     end
 
-    (0..7).each do |col|
-      spawn_pos = [1,col]
-      self[spawn_pos] = Pawn.new({color: :black, pos: spawn_pos, board: self})
-      spawn_pos = [6,col]
-      self[spawn_pos] = Pawn.new({color: :white, pos: spawn_pos, board: self})
-    end
+    # (0..7).each do |col|
+    #   spawn_pos = [1,col]
+    #   self[spawn_pos] = Pawn.new({color: :black, pos: spawn_pos, board: self})
+    #   spawn_pos = [6,col]
+    #   self[spawn_pos] = Pawn.new({color: :white, pos: spawn_pos, board: self})
+    # end
 
+
+
+    # fake_pos = [1,1]
+    fake_pos = [3,3]
+    self[fake_pos] = Queen.new(color: :white, pos: fake_pos, board: self)
   end
 
 end

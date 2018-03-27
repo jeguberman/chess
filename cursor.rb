@@ -32,12 +32,13 @@ MOVES = {
 
 class Cursor
 
-  attr_reader :cursor_pos, :background
+  attr_reader :cursor_pos, :background, :selection
 
   def initialize(cursor_pos, board)
     @cursor_pos = cursor_pos
     @board = board
     @background = :light_red
+    @selection = false
   end
 
   def get_cursor_pos
@@ -80,7 +81,7 @@ class Cursor
 
      case key
      when :return, :space
-       toggle_background
+       handle_selection
        return @cursor_pos
      when :left, :right, :up, :down
        update_pos(MOVES[key])
@@ -104,6 +105,20 @@ class Cursor
    end
 
   private
+
+  def handle_selection
+      toggle_background
+      toggle_selection
+  end
+
+  def toggle_selection
+    if @selection
+      @selection = false
+    else
+      @selection = @cursor_pos
+      
+    end
+  end
 
   def toggle_background
     if @background == :light_green
