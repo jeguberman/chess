@@ -33,6 +33,7 @@ class Board
     if colors == Set.new( [:white, :black] )
       end_piece.set_pos(nil)
       @graveyard[end_piece.color] << end_piece
+      self[start_pos] = NullPiece.instance
     else
       end_piece.set_pos(start_pos)
       self[start_pos] = end_piece

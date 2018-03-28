@@ -70,9 +70,8 @@ class Display
   end
 
   def render_view
-    display = render_board
-    display << "#{@game.current_player}\r\n"
-    display << "#{@errors}\r\n"
+    display = ""
+    display << render_board
     display << render_hud
     # display << render_debug_view
   end
