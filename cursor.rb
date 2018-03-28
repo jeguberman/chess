@@ -116,7 +116,7 @@ class Cursor
       @selection = false
     else
       @selection = @cursor_pos
-      
+
     end
   end
 

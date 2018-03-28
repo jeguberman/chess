@@ -45,7 +45,8 @@ class Display
 
   def render_hud
     display = "#{@errors}\r\n"
-    display << "#{@game.current_player}'s turn\r\n"
+    display << "#{@game.current_player}'s turn"
+    display << "\r\n" unless $DebugOn
     display << render_graveyards
     display
   end
@@ -57,13 +58,14 @@ class Display
     @board.graveyard[color].each do |piece|
       display << MODELS[piece.symbol] + " "
     end
-    display << "\r\n"
+    display << "\r\n" unless $DebugOn
     display
   end
 
   def render_graveyards
     display = ""
-    display << "Graveyards|\r\n"
+    display << "Graveyards|"
+    display << "\r\n" unless $DebugOn
     display << render_graveyard(:white)
     display << render_graveyard(:black)
     display
@@ -73,7 +75,7 @@ class Display
     display = ""
     display << render_board
     display << render_hud
-    # display << render_debug_view
+    display << render_debug_view
   end
 
   private
@@ -113,9 +115,9 @@ class Display
   def selection_info
     if @cursor.selection
       piece = @board[@cursor.selection]
-      return "selection_info: Piece: #{MODELS[piece.symbol]} , Color: #{piece.color.to_s}, pos: #{piece.pos.to_s}\r\nMoves:#{piece.moves}"
+      return "Piece: #{piece.color.to_s} #{MODELS[piece.symbol]} @ #{piece.pos.to_s}\r\nMoves:#{piece.moves}"
     end
-    return @cursor.selection.to_s + "?!\r\n"
+    return "\r\n"
   end
 
   def debug_board
@@ -170,15 +172,14 @@ class Display
     return [top_data, bottom_data]
   end
 
-  def graveyard
-  end
-
   def render_debug_view
     debug_display = ""
-    debug_display << selection_info
-    # debug_display << graveyard
-    # debug_display << debug_board
-
+    if $DebugOn
+      debug_display << selection_info
+      debug_display << debug_board
+      return debug_display
+    end
+    return debug_display
   end
 
 end

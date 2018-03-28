@@ -2,6 +2,10 @@ require './board'
 require './display'
 require 'set'
 
+#global variables
+$DebugOn = false
+
+#game
 class Game
   attr_reader :current_player
   def initialize
@@ -70,6 +74,17 @@ class Game
     print @display.render_view
   end
 
+end
+
+ARGV.each do |arg|
+  case arg
+  when "d", "jump_into_debug"
+    debugger
+  when "i", "debug_info"
+    $DebugOn = true
+  else
+    puts "what is #{arg}?" #no no, it's a joke, I didn't just leave it there
+  end
 end
 
 Game.new.play

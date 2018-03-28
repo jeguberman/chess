@@ -13,7 +13,7 @@ class Piece
 
   def moves#returns an array of available moves for the selected piece
     # raise "move method must be defined per individual piece type"
-    ["Oh, shit! You fucked up!"]
+    ["You should definitely not be seeing this"]
   end
 
   def set_pos(new_pos)
