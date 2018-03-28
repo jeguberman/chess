@@ -48,19 +48,22 @@ class Queen < Piece
 
   def initialize(params = {color: :white, pos: [0,0]})
     super(params)
-    def directions
-      [
-        [-1,-1],
-        [-1,0],
-        [-1,1],
-        [0,-1],
-        [0,1],
-        [1,-1],
-        [1,0],
-        [1,1]
-      ]
-    end
+
     @symbol = :Q
+    @value = 9
+  end
+
+  def directions
+    [
+      [-1,-1],
+      [-1,0],
+      [-1,1],
+      [0,-1],
+      [0,1],
+      [1,-1],
+      [1,0],
+      [1,1]
+    ]
   end
 end
 
@@ -69,6 +72,7 @@ class Bishop < Piece
   def initialize(params = {color: :white, pos: [0,0]})
     super(params)
     @symbol = :B
+    @value = 3
   end
 
   def directions
@@ -87,6 +91,7 @@ class Rook < Piece
   def initialize(params = {color: :white, pos: [0,0]})
     super(params)
     @symbol = :R
+    @value = 5
   end
 
   def directions
@@ -125,6 +130,7 @@ class Knight < Piece
   def initialize(params = {color: :white, pos: [0,0]})
     super(params)
     @symbol = :H
+    @value = 4 #technically should be 3 but this is being used for sorting before point evaluation
   end
 
   def directions
@@ -146,6 +152,7 @@ class Pawn < Piece
   def initialize(params = {color: :white, pos: [0,0]})
     super(params)
     @symbol = :P
+    @value = 1
   end
 
   def moves

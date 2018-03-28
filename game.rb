@@ -1,5 +1,6 @@
 require './board'
 require './display'
+require 'set'
 
 class Game
   attr_reader :current_player
@@ -14,7 +15,7 @@ class Game
   def play
     until game_over?
       turn
-      # swap_player
+      swap_player
     end
   end
 
@@ -66,7 +67,7 @@ class Game
 
   def display_board
     system("clear")
-    print @display.render_board
+    print @display.render_view
   end
 
 end

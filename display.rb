@@ -39,11 +39,42 @@ class Display
       end
       display << "\r\n"
     end
-    display << "#{@game.current_player}\r\n"
-    display << "#{@errors}\r\n"
-    display << render_debug_board
 
     return display
+  end
+
+  def render_hud
+    display = "#{@errors}\r\n"
+    display << "#{@game.current_player}'s turn\r\n"
+    display << render_graveyards
+    display
+  end
+
+  def render_graveyard(color)
+    display = ""
+
+    display <<  "  #{color.to_s}: "
+    @board.graveyard[color].each do |piece|
+      display << MODELS[piece.symbol] + " "
+    end
+    display << "\r\n"
+    display
+  end
+
+  def render_graveyards
+    display = ""
+    display << "Graveyards|\r\n"
+    display << render_graveyard(:white)
+    display << render_graveyard(:black)
+    display
+  end
+
+  def render_view
+    display = render_board
+    display << "#{@game.current_player}\r\n"
+    display << "#{@errors}\r\n"
+    display << render_hud
+    # display << render_debug_view
   end
 
   private
@@ -88,15 +119,15 @@ class Display
     return @cursor.selection.to_s + "?!\r\n"
   end
 
-  def render_debug_board
+  def debug_board
     debug_display = ""
 
 
-      debug_display << selection_info
 
 
 
-    debug_display << "\r\n  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  |\n\r___________________________________________"
+
+    debug_display = "\r\n  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  |\n\r___________________________________________"
 
     (0..7).each do |r|
       debug_display_top = ""
@@ -105,7 +136,7 @@ class Display
       debug_display_top << r.to_s +  "|"
       debug_display_bottom << "|"
       (0..7).each do |c|
-        ddt, ddb = specify_debug_info_for_cell([r,c])
+        ddt, ddb = format_cell_for_debug([r,c])
         debug_display_top << ddt
         debug_display_bottom << ddb
       end
@@ -116,7 +147,7 @@ class Display
     return debug_display
   end
 
-  def specify_debug_info_for_cell(position)
+  def format_cell_for_debug(position)
     begin
       top_data = " "
       bottom_data = " "
@@ -138,6 +169,17 @@ class Display
     end
     top_data << " "
     return [top_data, bottom_data]
+  end
+
+  def graveyard
+  end
+
+  def render_debug_view
+    debug_display = ""
+    debug_display << selection_info
+    # debug_display << graveyard
+    # debug_display << debug_board
+
   end
 
 end

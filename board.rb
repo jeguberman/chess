@@ -3,9 +3,15 @@ require_relative './pieces/piece.rb'
 class Board
   STRONG_PIECE_NAMES = [Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook]
 
+  attr_reader :graveyard
+
   def initialize
     @grid = Array.new(12){Array.new(12){NullPiece.instance}}
     populate!
+    @graveyard = {
+      white: [],
+      black: []
+    }
   end
 
   def [](pos)
@@ -19,14 +25,27 @@ class Board
   end
 
   def move_piece(start_pos, end_pos)
-    self[start_pos], self[end_pos] = self[end_pos], self[start_pos]
-    self[start_pos].set_pos(start_pos)
-    self[end_pos].set_pos(end_pos)
+    start_piece =  self[start_pos]
+    end_piece = self[end_pos]
+
+    colors = Set.new( [start_piece.color, end_piece.color])
+
+    if colors == Set.new( [:white, :black] )
+      end_piece.set_pos(nil)
+      @graveyard[end_piece.color] << end_piece
+    else
+      end_piece.set_pos(start_pos)
+      self[start_pos] = end_piece
+    end
+
+    start_piece.set_pos end_pos
+    self[end_pos] = start_piece
+
   end
 
   def valid_move?(current_player, start_pos, end_pos)
     if self[start_pos].color != current_player
-      raise StandardError.new("No piece at start position")
+      raise StandardError.new("Select one of your pieces for start position piece at start position")
     end
     if self[end_pos].color == current_player
       raise StandardError.new("Can't move to space occupied by own piece")
@@ -65,9 +84,10 @@ class Board
 
 
 
-    # fake_pos = [1,1]
-    # fake_pos = [3,3]
-    # self[fake_pos] = Knight.new(color: :white, pos: fake_pos, board: self)
+    fake_pos = [4,4]
+    self[fake_pos] = Pawn.new(color: :white, pos: fake_pos, board: self)
+    fake_pos = [3,3]
+    self[fake_pos] = Pawn.new(color: :black, pos: fake_pos, board: self)
   end
 
 end
