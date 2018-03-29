@@ -1,9 +1,11 @@
 require './board'
 require './display'
+require './modules'
 require 'set'
 
 #global variables
 $DebugOn = false
+# $RecordOn = false
 
 #game
 class Game
@@ -14,6 +16,7 @@ class Game
     # @players = [:white, :black]
     @current_player = :white
     @display = Display.new(@board, @cursor, self)
+    @record = Record.new
   end
 
   def play
@@ -27,7 +30,7 @@ class Game
     return false
   end
 
-  def turn
+  def turn #listens for two position values, verifies the validity of the move, displays errors if the move was invalid and tries again, control is dropped to move_piece
     display_board
     begin
       start_pos = turn_phase
@@ -39,11 +42,10 @@ class Game
       retry
     end
     @display.receive_errors(nil)
+    @record.save([start_pos, end_pos])
     @board.move_piece(start_pos, end_pos)
     display_board
   end
-
-
 
   private
 
@@ -82,6 +84,8 @@ ARGV.each do |arg|
     debugger
   when "i", "debug_info"
     $DebugOn = true
+  when "r", "record"
+    $RecordOn = true
   else
     puts "what is #{arg}?" #no no, it's a joke, I didn't just leave it there
   end
