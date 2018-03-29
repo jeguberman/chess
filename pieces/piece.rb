@@ -28,12 +28,21 @@ class Piece
     return true
   end
 
+  def opponent_in_space?(coord) #returns true if space is occupied by opponent piece
+    opponent_color = @color == :white ? :black : :white
+    @board[coord].color == opponent_color
+  end
+
+  def space_empty?(coord) #returns true if space is occupied by a nullPiece
+    @board[coord].color == :null
+  end
+
 end
 
 class NullPiece < Piece
   include Singleton
   def initialize
-    @color = :blue
+    @color = :null
     @symbol = :N
   end
 
@@ -158,17 +167,13 @@ class Pawn < Piece
   def moves
     delta = @color == :white ? -1 : 1
 
-    _moves = [ [pos[0] + delta, pos[1]] ]
+    _moves = add_forward_moves(delta)
 
-    if (delta == -1 && pos[0] == 6) || (delta == 1 && pos[0] == 1) #if pawn in starting row
-      _moves.push [pos[0] + delta * 2, pos[1]]
-    end
-
-    if opponent_in_space? [pos[0] + delta, pos[1] + delta]
+    if opponent_in_space? [pos[0] + delta, pos[1] + delta]#if opponent to upper left
       _moves.push [pos[0] + delta, pos[1] + delta]
     end
 
-    if opponent_in_space? [pos[0] + delta, pos[1] - delta]
+    if opponent_in_space? [pos[0] + delta, pos[1] - delta]#if opponent to upper right
       _moves.push [pos[0] + delta, pos[1] - delta]
     end
 
@@ -177,8 +182,20 @@ class Pawn < Piece
 
 
   private
-  def opponent_in_space?(coord)
-    opponent_color = @color == :white ? :black : :white
-    @board[coord].color == opponent_color
+
+  def add_forward_moves(delta)
+
+    return [] unless space_empty? ( [pos[0] + delta, pos[1]] )
+
+    _moves = [ [pos[0] + delta, pos[1]] ]
+    if (delta == -1 && pos[0] == 6) || (delta == 1 && pos[0] == 1) #if pawn in starting row
+      if space_empty? [pos[0] + delta * 2, pos[1]]
+        _moves.push [pos[0] + delta * 2, pos[1]]
+      end
+    end
+
+    _moves
+
   end
+
 end
