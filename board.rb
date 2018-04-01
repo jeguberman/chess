@@ -58,6 +58,7 @@ class Board
     if !self[start_pos].moves.include?(end_pos)
       raise StandardError.new("Not valid move for piece")
     end
+    if in_check?(current_player)
     return true
   end
 

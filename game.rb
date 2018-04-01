@@ -103,4 +103,6 @@ ARGV.each do |arg|
   end
 end
 
-Game.new.play
+# Game.new.play
+
+puts "Aren't you clever leaving a breadcrumb in this particular manner. You still have to make the game refuse to execute a move which will leave a king in check. You also have to check for checkmate, which is probably not faster than you think it is"
