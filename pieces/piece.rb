@@ -23,7 +23,7 @@ class Piece
   private
 
   def confirm_in_bounds(coord)
-    return false  unless @board[coord].color != @color
+    return false unless @board[coord].color != @color
     return false unless @board.in_bounds? coord
     return true
   end
@@ -165,10 +165,22 @@ class Pawn < Piece
   end
 
   def moves
+
+
+    _moves = add_forward_moves
+    _moves += add_attack_moves
+
+
+    _moves
+  end
+
+
+  # private
+
+  def add_attack_moves
     delta = @color == :white ? -1 : 1
 
-    _moves = add_forward_moves(delta)
-
+    _moves = []
     if opponent_in_space? [pos[0] + delta, pos[1] + delta]#if opponent to upper left
       _moves.push [pos[0] + delta, pos[1] + delta]
     end
@@ -176,15 +188,11 @@ class Pawn < Piece
     if opponent_in_space? [pos[0] + delta, pos[1] - delta]#if opponent to upper right
       _moves.push [pos[0] + delta, pos[1] - delta]
     end
-
     _moves
   end
 
-
-  private
-
-  def add_forward_moves(delta)
-
+  def add_forward_moves
+    delta = @color == :white ? -1 : 1
     return [] unless space_empty? ( [pos[0] + delta, pos[1]] )
 
     _moves = [ [pos[0] + delta, pos[1]] ]

@@ -96,19 +96,70 @@ module Recorder
     end
   end
 
-  def replay
-    if $ReplayOn
-      file = File.open(@filepath, "r")
-      # file.foreach {}
+  def fastForward
+    return unless $ReplayOn
 
-      IO.foreach(@filepath) do |move|
-        next if move == ":game_start\n"
-        break if move == ":check_mate\n"
-        move = eval move #technically a vulnerability but this is cli chess, not the gui for the hawaiian missile defense system
-        @board.move_piece(move[0],move[1])
+    whiteTurn = true
+    IO.foreach(@filepath) do |move|
+      next if move == ":game_start\n"
+      break if move == ":check_mate\n"
+      move = eval move #technically a vulnerability but this is cli chess, not the gui for the hawaiian missile defense system
+      save_move([move[0],move[1]])
+      @board.move_piece(move[0],move[1])
+      whiteTurn = !whiteTurn
+    end
+      swap_player unless whiteTurn
+
+  end
+
+
+end
+
+module CheckModule
+
+  def find_king(color)
+    @grid.each_with_index do |row, y|
+      row.each_with_index do |piece, x|
+        if piece.class == King and piece.color == color
+          return ([y,x])
+        end
       end
-
     end
   end
+
+  def in_check?(color)
+    in_check_positions(color).length > 0
+  end
+
+  def in_check_positions(color)
+    king_pos = find_king(color)
+    threats = []
+    # threats += pawn_threat(king_pos, color)
+    threats += threat_check(king_pos, color, Pawn)
+    threats += threat_check(king_pos, color, Rook)
+    threats += threat_check(king_pos, color, Bishop)
+    threats += threat_check(king_pos, color, Queen)
+    threats += threat_check(king_pos, color, Knight)
+    return threats
+  end
+
+  def pawn_threat(king_pos,color)
+    hypotheses = Pawn.new(color: color, pos: king_pos, board: self).moves
+    hypotheses.select! { |coord| self[coord].class == Pawn }
+    hypotheses
+  end
+
+  def threat_check(king_pos, color, type)
+    hypotheses = type.new(color: color, pos: king_pos, board: self).moves
+    hypotheses.select! { |coord| self[coord].class == type }
+    hypotheses
+  end
+
+  # def rook_threat(king_pos,color)
+  #   hypotheses = Rook.new(color: color, pos: king_pos, board: self).add_attack_moves
+  #   hypotheses.select! { |coord| self[coord].class == Pawn }
+  #   hypotheses
+  # end
+
 
 end

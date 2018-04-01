@@ -1,11 +1,15 @@
 require_relative './pieces/piece.rb'
+require_relative './modules.rb'
 
 class Board
+  include CheckModule
+
   STRONG_PIECE_NAMES = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
 
   attr_reader :graveyard
 
   def initialize
+    super
     @grid = Array.new(12){Array.new(12){NullPiece.instance}}
     populate!
     @graveyard = {
@@ -90,10 +94,25 @@ class Board
 
   def test_positions #populate the board with pieces not in starting position
     return unless $TestsOn
-    fake_pos = [4,4]
+
+    fake_pos = [2,3]
+    self[fake_pos] = King.new(color: :black, pos: fake_pos, board: self)
+
+    self[[0,4]]= NullPiece.instance
+
+    fake_pos = [4,1]
+    self[fake_pos] = Bishop.new(color: :white, pos: fake_pos, board: self)
+
+    fake_pos = [5,3]
+    self[fake_pos] = Rook.new(color: :white, pos: fake_pos, board: self)
+
+    fake_pos = [3,4]
     self[fake_pos] = Pawn.new(color: :white, pos: fake_pos, board: self)
-    fake_pos = [3,3]
-    self[fake_pos] = Pawn.new(color: :black, pos: fake_pos, board: self)
+
+    fake_pos = [3,5]
+    self[fake_pos] = Knight.new(color: :white, pos: fake_pos, board: self)
+
+
   end
 
 end

@@ -23,7 +23,8 @@ class Game
 
 
   def play
-    replay if $ReplayOn
+    fastForward
+    swap_player if $TestsOn
     until game_over?
       turn
       swap_player

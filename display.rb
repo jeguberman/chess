@@ -47,10 +47,19 @@ class Display
 
   def render_hud
     display = "#{@errors}\r\n"
-    display << "#{@game.current_player}'s turn"
+    display << "#{@game.current_player.capitalize}'s turn"
+    display << check_alert
+    display << "\r\n"
     display << "\r\n" unless $DebugOn
     display << render_graveyards
     display
+  end
+
+  def check_alert
+    if @board.in_check?(@game.current_player)
+      return ": #{@game.current_player.capitalize}'s King is in check!\r\n"
+    end
+    return ""
   end
 
   def render_graveyard(color)
@@ -104,6 +113,10 @@ class Display
       [false,true] => :blue,
       [true,true] => :light_blue
     }[[even,move]]
+
+    if @board.in_check_positions(@game.current_player).include? [row,col]
+      bgc = :magenta
+    end
 
     return (sym + " ").colorize(background: bgc, color: color)
 
