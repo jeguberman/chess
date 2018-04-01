@@ -24,7 +24,7 @@ class Board
     @grid[x][y]=arg
   end
 
-  def move_piece(start_pos, end_pos)
+  def move_piece(start_pos, end_pos) #moves one piece to another square, taking appropriate action depending on what piece occupies the other square
     start_piece =  self[start_pos]
     end_piece = self[end_pos]
 
@@ -44,7 +44,7 @@ class Board
 
   end
 
-  def valid_move?(current_player, start_pos, end_pos)
+  def valid_move?(current_player, start_pos, end_pos) #takes two positions and the current player's ID color and returns true if the first position can move to the second position
     if self[start_pos].color != current_player
       raise StandardError.new("Select one of your pieces for start position piece at start position")
     end
@@ -57,14 +57,14 @@ class Board
     return true
   end
 
-  def in_bounds?(pos)
+  def in_bounds?(pos) #takes position and returns true if position is on the chess board
     x, y = pos
     return true if ((0..7).include? x ) && ((0..7).include? y)
     return false
   end
 
 
-  def populate!
+  def populate! #populates the board with standard chess layout. Adds pieces in strange positions if $TestsOn variable is true
     col = 0
     STRONG_PIECE_NAMES.each do |piece_class|
       spawn_pos = [0, col]
@@ -83,8 +83,13 @@ class Board
       self[spawn_pos] = Pawn.new({color: :white, pos: spawn_pos, board: self})
     end
 
+    test_positions
 
 
+  end
+
+  def test_positions #populate the board with pieces not in starting position
+    return unless $TestsOn
     fake_pos = [4,4]
     self[fake_pos] = Pawn.new(color: :white, pos: fake_pos, board: self)
     fake_pos = [3,3]

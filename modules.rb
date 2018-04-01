@@ -1,3 +1,4 @@
+
 module DebugDisplay
 
   MODELS = {
@@ -74,17 +75,40 @@ module DebugDisplay
     end
 end
 
-class Record
-  def initialize
+module Recorder
+  def initialize(*args)
     @record = [:game_start]
-    @fullname = "./replays/replay"
-    File.open(@fullname, "w"){|file| file.puts ":game_start"}
+    @filepath = "./replays/replay"
+    initialize_replay_file
   end
 
-  def save(poses)
+  def initialize_replay_file
     if $RecordOn
-      file = File.open(@fullname, "a")
-      file.puts(poses.to_s)
+      File.open(@filepath, "w"){|file| file.puts ":game_start"}
     end
   end
+
+  def save_move(poses)
+    if $RecordOn
+      File.open(@filepath, "a") do |file|
+          file.puts(poses.to_s)
+      end
+    end
+  end
+
+  def replay
+    if $ReplayOn
+      file = File.open(@filepath, "r")
+      # file.foreach {}
+
+      IO.foreach(@filepath) do |move|
+        next if move == ":game_start\n"
+        break if move == ":check_mate\n"
+        move = eval move #technically a vulnerability but this is cli chess, not the gui for the hawaiian missile defense system
+        @board.move_piece(move[0],move[1])
+      end
+
+    end
+  end
+
 end

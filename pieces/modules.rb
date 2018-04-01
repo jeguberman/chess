@@ -17,8 +17,6 @@ end
 
 module SteppingPiece
   def moves
-    # puts "spm"
-    # debugger
     _moves = []
     directions.each do |delta_direction|
       coord = [pos[0]+delta_direction[0], pos[1]+delta_direction[1]]

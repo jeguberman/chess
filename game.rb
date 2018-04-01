@@ -1,25 +1,29 @@
+#!/usr/bin/env ruby
+
 require './board'
 require './display'
 require './modules'
 require 'set'
 
 #global variables
-$DebugOn = false
+# $DebugOn = false
 # $RecordOn = false
 
 #game
 class Game
+  include Recorder
   attr_reader :current_player
   def initialize
+    super
     @board = Board.new
     @cursor = Cursor.new([4,4], @board)
-    # @players = [:white, :black]
     @current_player = :white
     @display = Display.new(@board, @cursor, self)
-    @record = Record.new
   end
 
+
   def play
+    replay if $ReplayOn
     until game_over?
       turn
       swap_player
@@ -42,7 +46,7 @@ class Game
       retry
     end
     @display.receive_errors(nil)
-    @record.save([start_pos, end_pos])
+    save_move([start_pos, end_pos])
     @board.move_piece(start_pos, end_pos)
     display_board
   end
@@ -59,7 +63,6 @@ class Game
 
   def turn_phase
     pos = nil
-
     until pos
       display_board
       pos = @cursor.get_cursor_pos
@@ -80,12 +83,20 @@ end
 
 ARGV.each do |arg|
   case arg
-  when "d", "jump_into_debug"
-    debugger
   when "i", "debug_info"
     $DebugOn = true
+    break
   when "r", "record"
     $RecordOn = true
+    break
+  when "p", "replay"
+    $ReplayOn = true
+    break
+  when "t", "tests"
+    $TestsOn = true
+    break
+  when "d", "jump_into_debug"
+    debugger
   else
     puts "what is #{arg}?" #no no, it's a joke, I didn't just leave it there
   end
