@@ -99,10 +99,10 @@ class Display
     end
 
     bgc = {
-      [false,false] => :light_white,
-      [true,false] => :light_black,
-      [false,true] => :light_blue,
-      [true,true] => :blue
+      [false,false] => :light_black,
+      [true,false] => :light_white,
+      [false,true] => :blue,
+      [true,true] => :light_blue
     }[[even,move]]
 
     return (sym + " ").colorize(background: bgc, color: color)

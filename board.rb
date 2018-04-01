@@ -1,7 +1,7 @@
 require_relative './pieces/piece.rb'
 
 class Board
-  STRONG_PIECE_NAMES = [Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook]
+  STRONG_PIECE_NAMES = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
 
   attr_reader :graveyard
 
