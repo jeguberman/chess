@@ -155,11 +155,27 @@ module CheckModule
     hypotheses
   end
 
-  # def rook_threat(king_pos,color)
-  #   hypotheses = Rook.new(color: color, pos: king_pos, board: self).add_attack_moves
-  #   hypotheses.select! { |coord| self[coord].class == Pawn }
-  #   hypotheses
-  # end
+  def pontificate_check(current_player, start_pos, end_pos)#takes a move and determines if that move will leave the current player in check. If true, throws an error
+    mock_board = create_mock_board
+    mock_board.move_piece(start_pos, end_pos)
+    if mock_board.in_check?(current_player)
+      raise PieceMoveError.new("Can not leave your king in check")
+    end
+  end
+
+  def create_mock_board
+    mock_board = Board.new
+    @grid.each_with_index do |row, iy|
+      row.each_index do |ix|
+        if self[[iy,ix]].class != NullPiece
+          mock_board[[iy,ix]] = self[[iy,ix]].dup
+        else
+          mock_board[[iy,ix]] = NullPiece.instance
+        end
+      end
+    end
+    return mock_board
+  end
 
 
 end

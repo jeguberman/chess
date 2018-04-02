@@ -4,10 +4,12 @@ require './board'
 require './display'
 require './modules'
 require 'set'
-
 #global variables
 # $DebugOn = false
 # $RecordOn = false
+# $ReplayOn = false
+# $TestsOn = false
+class PieceMoveError < StandardError; end
 
 #game
 class Game
@@ -41,7 +43,7 @@ class Game
       start_pos = turn_phase
       end_pos = turn_phase
       @board.valid_move?(@current_player, start_pos, end_pos)
-    rescue StandardError => errors
+    rescue PieceMoveError => errors
       @display.receive_errors(errors.message)
       display_board
       retry
@@ -103,6 +105,4 @@ ARGV.each do |arg|
   end
 end
 
-# Game.new.play
-
-puts "Aren't you clever leaving a breadcrumb in this particular manner. You still have to make the game refuse to execute a move which will leave a king in check. You also have to check for checkmate, which is probably not faster than you think it is"
+Game.new.play

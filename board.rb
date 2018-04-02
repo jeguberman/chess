@@ -49,18 +49,29 @@ class Board
   end
 
   def valid_move?(current_player, start_pos, end_pos) #takes two positions and the current player's ID color and returns true if the first position can move to the second position
+
     if self[start_pos].color != current_player
-      raise StandardError.new("Select one of your pieces for start position piece at start position")
+      raise PieceMoveError.new("Select one of your pieces for start position piece at start position")
     end
     if self[end_pos].color == current_player
-      raise StandardError.new("Can't move to space occupied by own piece")
+      raise PieceMoveError.new("Can't move to space occupied by own piece")
     end
     if !self[start_pos].moves.include?(end_pos)
-      raise StandardError.new("Not valid move for piece")
+      raise PieceMoveError.new("Not valid move for piece")
     end
-    if in_check?(current_player)
+    pontificate_check(current_player, start_pos, end_pos)
     return true
   end
+
+
+
+
+
+
+
+
+
+
 
   def in_bounds?(pos) #takes position and returns true if position is on the chess board
     x, y = pos
