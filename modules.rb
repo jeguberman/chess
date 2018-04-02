@@ -82,13 +82,13 @@ module Recorder
     initialize_replay_file
   end
 
-  def initialize_replay_file
+  def initialize_replay_file #truncates the replay file at 0
     if $RecordOn
       File.open(@filepath, "w"){|file| file.puts ":game_start"}
     end
   end
 
-  def save_move(poses)
+  def save_move(poses) #saves the start and end pos of the current move as an array like string to the replay file
     if $RecordOn
       File.open(@filepath, "a") do |file|
           file.puts(poses.to_s)
@@ -96,7 +96,7 @@ module Recorder
     end
   end
 
-  def fastForward
+  def fastForward #plays out all moves from the replay file
     return unless $ReplayOn
 
     whiteTurn = true
@@ -117,7 +117,7 @@ end
 
 module CheckModule
 
-  def find_king(color)
+  def find_king(color) #finds the pos of the current king on the board
     @grid.each_with_index do |row, y|
       row.each_with_index do |piece, x|
         if piece.class == King and piece.color == color
@@ -127,14 +127,13 @@ module CheckModule
     end
   end
 
-  def in_check?(color)
+  def in_check?(color) #returns true if current king is in check
     in_check_positions(color).length > 0
   end
 
-  def in_check_positions(color)
+  def in_check_positions(color) #returns an array of pieces threatening the current king
     king_pos = find_king(color)
     threats = []
-    # threats += pawn_threat(king_pos, color)
     threats += threat_check(king_pos, color, Pawn)
     threats += threat_check(king_pos, color, Rook)
     threats += threat_check(king_pos, color, Bishop)
@@ -143,13 +142,7 @@ module CheckModule
     return threats
   end
 
-  def pawn_threat(king_pos,color)
-    hypotheses = Pawn.new(color: color, pos: king_pos, board: self).moves
-    hypotheses.select! { |coord| self[coord].class == Pawn }
-    hypotheses
-  end
-
-  def threat_check(king_pos, color, type)
+  def threat_check(king_pos, color, type)#checks if current king is threatened by given piece type
     hypotheses = type.new(color: color, pos: king_pos, board: self).moves
     hypotheses.select! { |coord| self[coord].class == type }
     hypotheses
@@ -163,7 +156,7 @@ module CheckModule
     end
   end
 
-  def create_mock_board
+  def create_mock_board #creates a mock board for pontificating future moves
     mock_board = Board.new
     @grid.each_with_index do |row, iy|
       row.each_index do |ix|

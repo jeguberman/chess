@@ -104,7 +104,7 @@ class Board
 
   end
 
-  def test_positions #populate the board with pieces not in starting position
+  def test_positions #populate the board with pieces not in standard starting position
     return unless $TestsOn
 
     fake_pos = [2,3]
